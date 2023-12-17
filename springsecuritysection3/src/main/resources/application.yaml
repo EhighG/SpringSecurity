@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: "secret"
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/eazybank
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

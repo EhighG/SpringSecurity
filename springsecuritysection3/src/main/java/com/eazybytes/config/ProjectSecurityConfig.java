@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -90,10 +91,9 @@ public class ProjectSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        /*
-        인코딩 동작이 없는 인코더(사용시 패스워드가 그대로 저장됨). 추천되지 않음
-         */
-        return NoOpPasswordEncoder.getInstance();
+//        return new BCryptPasswordEncoder(31); // 난이도 지정
+//        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B); // BCrypt 버전 지정
+        return new BCryptPasswordEncoder();
     }
 
 //    @Autowired

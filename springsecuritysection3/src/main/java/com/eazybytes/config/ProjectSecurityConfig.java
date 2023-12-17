@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,19 +29,22 @@ public class ProjectSecurityConfig {
          * custom security configuration
          */
 
-        http.authorizeHttpRequests((requests)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((requests)
                 -> requests
                 .requestMatchers("/myAccount", "/myBalance", "/myCards", "/myLoans").authenticated()
-                .requestMatchers("/contact", "/notices").permitAll())
+                .requestMatchers("/contact", "/notices", "/register").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults()); // 기존 and(), formLogin(), httpBasic() 은 deprecated
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+//    // config.EazyBankUserDetailsManager 와 겹침. 주석처리
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
 
 //    /**
 //     * manage multi-user info(inMemory)
